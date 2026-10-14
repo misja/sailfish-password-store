@@ -5,7 +5,7 @@ Summary: Private tree utility for the pass CLI prototype
 License: GPL-2.0-or-later
 URL: https://gitlab.com/OldManProgrammer/unix-tree
 Source0: tree-2.3.2.tar.gz
-Source1: tree-source-20261011.json
+Source1: tree-source.json
 # Make/GCC are supplied by pinned Sailfish SDK build tooling.
 
 %description
