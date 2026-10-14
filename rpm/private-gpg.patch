@@ -1,6 +1,15 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Misja Hoebe <36168+misja@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 20:52:40 +0200
+Subject: [PATCH] pass: bind private GnuPG and preserve BusyBox listing
+
+Preserves the existing Sailfish packaging patch; source behavior is unchanged.
+
+diff --git a/src/password-store.sh b/src/password-store.sh
+index a0dcf2e..6d27106 100755
 --- a/src/password-store.sh
 +++ b/src/password-store.sh
-@@ -7,9 +7,8 @@
+@@ -7,9 +7,8 @@ umask "${PASSWORD_STORE_UMASK:-077}"
  set -o pipefail
  
  GPG_OPTS=( $PASSWORD_STORE_GPG_OPTS "--quiet" "--yes" "--compress-algo=none" "--no-encrypt-to" )
@@ -11,7 +20,7 @@
  [[ -n $GPG_AGENT_INFO || $GPG == "gpg2" ]] && GPG_OPTS+=( "--batch" "--use-agent" )
  
  PREFIX="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
-@@ -402,7 +401,7 @@
+@@ -402,7 +401,7 @@ cmd_show() {
  		else
  			echo "${path%\/}"
  		fi
@@ -20,7 +29,7 @@
  	elif [[ -z $path ]]; then
  		die "Error: password store is empty. Try \"pass init\"."
  	else
-@@ -414,7 +413,7 @@
+@@ -414,7 +413,7 @@ cmd_find() {
  	[[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND pass-names..."
  	IFS="," eval 'echo "Search Terms: $*"'
  	local terms="*$(printf '%s*|*' "$@")"

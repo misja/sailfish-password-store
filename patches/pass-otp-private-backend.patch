@@ -1,3 +1,12 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Misja Hoebe <36168+misja@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 20:54:38 +0200
+Subject: [PATCH] otp: select the packaged private OATH backend
+
+Preserves the existing Sailfish packaging patch; source behavior is unchanged.
+
+diff --git a/otp.bash b/otp.bash
+index 114ef64..684a8e0 100755
 --- a/otp.bash
 +++ b/otp.bash
 @@ -17,7 +17,7 @@

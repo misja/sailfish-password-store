@@ -12,3 +12,5 @@ Synthetic tests and a limited development trial exist. General migration, synchr
 Development uses AI-assisted tools under maintainer review. See [CONTRIBUTING](CONTRIBUTING.md) for review and testing requirements. Shared working agreements live in [sailfish-workspace](https://github.com/misja/sailfish-workspace).
 
 Original work is [GPL-3.0-or-later](LICENSING.md). The pass, pass-otp and other [upstream licenses](THIRD_PARTY.md) remain in force.
+
+See [fork and packaging maintenance](docs/FORK_WORKFLOW.md).
