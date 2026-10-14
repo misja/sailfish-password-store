@@ -1,0 +1,65 @@
+#!/usr/bin/busybox sh
+set -eu
+# Fixed BusyBox ash does not import exported Bash functions.
+# The initial loader still belongs to the calling user's trusted process context.
+# Sanitize before utility lookup or starting private helpers; this is not a sandbox.
+PATH=/usr/bin:/bin
+export PATH
+unset BASH_ENV ENV CDPATH LD_LIBRARY_PATH LD_PRELOAD LD_AUDIT GPG_AGENT_INFO
+if test -x /bin/stat; then stat_tool=/bin/stat; else stat_tool=/usr/bin/stat; fi
+current_uid=$(/usr/bin/id -u)
+for private_dir in "${SAILFISH_GNUPGHOME:-}" "${PASSWORD_STORE_DIR:-}"; do
+    case "$private_dir" in
+        /*) ;;
+        *) echo 'Set explicit absolute SAILFISH_GNUPGHOME and PASSWORD_STORE_DIR' >&2; exit 64 ;;
+    esac
+    if test -L "$private_dir" || test ! -d "$private_dir" ||
+       test "$("$stat_tool" -c '%u %a' "$private_dir")" != "$current_uid 700"; then
+        echo 'Private home/store must be existing owned mode-700 directories, not symlinks' >&2
+        exit 64
+    fi
+    physical_dir=$(command cd -P "$private_dir" && command pwd -P) || exit 64
+    if test "$physical_dir" != "$private_dir"; then
+        echo 'Private home/store paths must be canonical physical paths' >&2
+        exit 64
+    fi
+done
+case "$PASSWORD_STORE_DIR/" in "$SAILFISH_GNUPGHOME/"*)
+    echo 'Private home and store must not overlap' >&2; exit 64 ;;
+esac
+case "$SAILFISH_GNUPGHOME/" in "$PASSWORD_STORE_DIR/"*)
+    echo 'Private home and store must not overlap' >&2; exit 64 ;;
+esac
+if test "$SAILFISH_GNUPGHOME" = "$PASSWORD_STORE_DIR"; then
+    echo 'Use separate private GnuPG home and password-store directories' >&2
+    exit 64
+fi
+test -x /usr/bin/sailfish-gpg || {
+    echo 'Private GnuPG runtime is required' >&2; exit 69;
+}
+test -x /usr/bin/bash || {
+    echo 'Full Bash at /usr/bin/bash is required' >&2; exit 69;
+}
+unset LD_LIBRARY_PATH LD_PRELOAD LD_AUDIT GPG_AGENT_INFO
+export GNUPGHOME="$SAILFISH_GNUPGHOME"
+export PATH=/usr/libexec/sailfish-pass-tools/bin:/usr/bin:/bin
+unset PASSWORD_STORE_GPG_OPTS PASSWORD_STORE_KEY PASSWORD_STORE_SIGNING_KEY
+export PASSWORD_STORE_ENABLE_EXTENSIONS=false
+export PASSWORD_STORE_EXTENSIONS_DIR=/usr/libexec/sailfish-pass/password-store/extensions
+export PASSWORD_STORE_UMASK=077
+# /usr/bin/bash can be a BusyBox alias. Require actual Bash arrays/pipefail.
+/usr/bin/env -i PATH=/usr/bin:/bin HOME="$SAILFISH_GNUPGHOME" LANG=C /usr/bin/bash --noprofile --norc -c 'test -n "${BASH_VERSION:-}" && set -o pipefail && a=(ok) && test "${a[0]}" = ok' || {
+    echo 'The installed shell does not provide full Bash semantics' >&2; exit 69;
+}
+# Only documented display/TTY and generation settings cross the child boundary.
+exec /usr/bin/env -i PATH="$PATH" HOME="$SAILFISH_GNUPGHOME" \
+    LANG="${LANG:-C}" LC_ALL="${LC_ALL:-}" TERM="${TERM:-dumb}" \
+    GPG_TTY="${GPG_TTY:-}" XDG_RUNTIME_DIR="/run/user/$current_uid" \
+    GNUPGHOME="$SAILFISH_GNUPGHOME" SAILFISH_GNUPGHOME="$SAILFISH_GNUPGHOME" \
+    PASSWORD_STORE_DIR="$PASSWORD_STORE_DIR" PASSWORD_STORE_ENABLE_EXTENSIONS=false \
+    PASSWORD_STORE_EXTENSIONS_DIR=/usr/libexec/sailfish-pass/password-store/extensions \
+    PASSWORD_STORE_UMASK=077 \
+    PASSWORD_STORE_GENERATED_LENGTH="${PASSWORD_STORE_GENERATED_LENGTH:-}" \
+    PASSWORD_STORE_CHARACTER_SET="${PASSWORD_STORE_CHARACTER_SET:-}" \
+    PASSWORD_STORE_CHARACTER_SET_NO_SYMBOLS="${PASSWORD_STORE_CHARACTER_SET_NO_SYMBOLS:-}" \
+    /usr/bin/bash --noprofile --norc /usr/libexec/sailfish-pass/bin/pass "$@"

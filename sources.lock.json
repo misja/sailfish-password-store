@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-11",
+  "pass": {
+    "version": "1.7.4",
+    "tag": "1.7.4",
+    "tag_object": "d1b60500490b2b5ec0942f1b6ef8b9537c4b6c1c",
+    "commit": "1078f2514d579178d5df7042c6a790e9c9b731ad",
+    "primary_fingerprint": "AB9942E6D4A4CFC3412620A749FC7012A5DE03AE",
+    "archive": "password-store-1.7.4-verified.tar",
+    "sha256": "dd0d62c38727553758e2d6e2d04abc4f37b5ca6b233af5836270bc477d94c20c"
+  },
+  "pass_otp": {
+    "version": "1.2.0",
+    "sha256": "5720a649267a240a4f7ba5a6445193481070049c1d08ba38b00d20fc551c3a67",
+    "status": "Historical pinned source; bounded synthetic/trial evidence exists; general release and current-target acceptance remain open."
+  },
+  "sdk_target": "SailfishOS-5.1.0.11-aarch64",
+  "release_target": "sailfishos-5.2.0.18-aarch64",
+  "speckit": {
+    "version": "1.1.3",
+    "source_commit": "0282d03eb6fc3091b3deaa3a855d4030dc40cd6c",
+    "assets": "copied shared scripts/templates/workflows; feature authored manually"
+  },
+  "tree": {
+    "version": "2.3.2",
+    "tag": "2.3.2",
+    "commit": "1a41b51bea1cec4109eb9f726370449b384b4576",
+    "metadata_url": "https://api.github.com/repos/Old-Man-Programmer/tree/git/ref/tags/2.3.2",
+    "archive_url": "https://codeload.github.com/Old-Man-Programmer/tree/tar.gz/1a41b51bea1cec4109eb9f726370449b384b4576",
+    "archive": "tree-2.3.2.tar.gz",
+    "sha256": "615e21858dd995a2cbd98c1ed31b11dbbfd310f843af4d065cad38167ba6ea8e",
+    "authentication": "publisher HTTPS, exact commit/digest pinned; no signature verified"
+  },
+  "sdk_make": "4.4.1 (SDK build tooling, not target RPM)",
+  "oath_toolkit": {
+    "version": "2.6.14",
+    "archive": "oath-toolkit-2.6.14.tar.gz",
+    "sha256": "8b1da365759f1249be57a82aec6e107f7b57dc77d813f96dc0aaf81624f28971",
+    "primary_fingerprint": "B1D2BD1375BECB784CF4F8C4D73CF638C53C06BE",
+    "signer_fingerprint": "A3CC9C870B9D310ABAD4CF2F51722B08FE4745A2",
+    "verification_record": "evidence/oath-source-20261012.json"
+  }
+}

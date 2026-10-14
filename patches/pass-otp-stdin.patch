@@ -1,0 +1,73 @@
+--- a/otp.bash
++++ b/otp.bash
+@@ -49,7 +49,7 @@
+   uri="${uri//\"/%22}"
+ 
+   local pattern='^otpauth:\/\/(totp|hotp)(\/(([^:?]+)?(:([^:?]*))?))?\?(.+)$'
+-  [[ "$uri" =~ $pattern ]] || die "Cannot parse OTP key URI: $uri"
++  [[ "$uri" =~ $pattern ]] || die "Cannot parse OTP key URI"
+ 
+   otp_uri=${BASH_REMATCH[0]}
+   otp_type=${BASH_REMATCH[1]}
+@@ -57,7 +57,7 @@
+ 
+   otp_accountname=$(urldecode "${BASH_REMATCH[6]}")
+   [[ -z $otp_accountname ]] && otp_accountname=$(urldecode "${BASH_REMATCH[4]}") || otp_issuer=$(urldecode "${BASH_REMATCH[4]}")
+-  [[ -z $otp_accountname ]] && die "Invalid key URI (missing accountname): $otp_uri"
++  [[ -z $otp_accountname ]] && die "Invalid key URI (missing accountname)"
+ 
+   local p=${BASH_REMATCH[7]}
+   local params
+@@ -78,10 +78,10 @@
+     fi
+   done
+ 
+-  [[ -z "$otp_secret" ]] && die "Invalid key URI (missing secret): $otp_uri"
++  [[ -z "$otp_secret" ]] && die "Invalid key URI (missing secret)"
+ 
+   pattern='^[0-9]+$'
+-  [[ "$otp_type" == 'hotp' ]] && [[ ! "$otp_counter" =~ $pattern ]] && die "Invalid key URI (missing counter): $otp_uri"
++  [[ "$otp_type" == 'hotp' ]] && [[ ! "$otp_counter" =~ $pattern ]] && die "Invalid key URI (missing counter)"
+ }
+ 
+ otp_read_uri() {
+@@ -331,21 +331,21 @@
+     fi
+   done < <(echo "$contents")
+ 
+-  local cmd
++  local -a cmd
+   case "$otp_type" in
+     totp)
+-      cmd="$OATH -b --totp"
+-      [[ -n "$otp_algorithm" ]] && cmd+=$(echo "=${otp_algorithm}"|tr "[:upper:]" "[:lower:]")
+-      [[ -n "$otp_period" ]] && cmd+=" --time-step-size=$otp_period"s
+-      [[ -n "$otp_digits" ]] && cmd+=" --digits=$otp_digits"
+-      cmd+=" $otp_secret"
++      cmd=("$OATH" -b --totp)
++      [[ -n "$otp_algorithm" ]] && cmd[2]="--totp=${otp_algorithm,,}"
++      [[ -n "$otp_period" ]] && cmd+=("--time-step-size=${otp_period}s")
++      [[ -n "$otp_digits" ]] && cmd+=("--digits=$otp_digits")
++      cmd+=(-)
+       ;;
+ 
+     hotp)
+       local counter=$((otp_counter+1))
+-      cmd="$OATH -b --hotp --counter=$counter"
+-      [[ -n "$otp_digits" ]] && cmd+=" --digits=$otp_digits"
+-      cmd+=" $otp_secret"
++      cmd=("$OATH" -b --hotp "--counter=$counter")
++      [[ -n "$otp_digits" ]] && cmd+=("--digits=$otp_digits")
++      cmd+=(-)
+       ;;
+ 
+     *)
+@@ -353,7 +353,7 @@
+       ;;
+   esac
+ 
+-  local out; out=$($cmd) || die "$path: failed to generate OTP code."
++  local out; out=$("${cmd[@]}" <<< "$otp_secret") || die "$path: failed to generate OTP code."
+ 
+   if [[ "$otp_type" == "hotp" ]]; then
+     # Increment HOTP counter in-place

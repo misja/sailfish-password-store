@@ -1,0 +1,31 @@
+--- a/src/password-store.sh
++++ b/src/password-store.sh
+@@ -7,9 +7,8 @@
+ set -o pipefail
+ 
+ GPG_OPTS=( $PASSWORD_STORE_GPG_OPTS "--quiet" "--yes" "--compress-algo=none" "--no-encrypt-to" )
+-GPG="gpg"
++GPG="/usr/bin/sailfish-gpg"
+ export GPG_TTY="${GPG_TTY:-$(tty 2>/dev/null)}"
+-which gpg2 &>/dev/null && GPG="gpg2"
+ [[ -n $GPG_AGENT_INFO || $GPG == "gpg2" ]] && GPG_OPTS+=( "--batch" "--use-agent" )
+ 
+ PREFIX="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
+@@ -402,7 +401,7 @@
+ 		else
+ 			echo "${path%\/}"
+ 		fi
+-		tree -N -C -l --noreport "$PREFIX/$path" | tail -n +2 | sed -E 's/\.gpg(\x1B\[[0-9]+m)?( ->|$)/\1\2/g' # remove .gpg at end of line, but keep colors
++		tree -N -C -l --noreport "$PREFIX/$path" | tail -n +2 | sed -E 's/\.gpg('$'\033''\[[0-9]+m)?( ->|$)/\1\2/g' # remove .gpg at end of line, but keep colors
+ 	elif [[ -z $path ]]; then
+ 		die "Error: password store is empty. Try \"pass init\"."
+ 	else
+@@ -414,7 +413,7 @@
+ 	[[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND pass-names..."
+ 	IFS="," eval 'echo "Search Terms: $*"'
+ 	local terms="*$(printf '%s*|*' "$@")"
+-	tree -N -C -l --noreport -P "${terms%|*}" --prune --matchdirs --ignore-case "$PREFIX" | tail -n +2 | sed -E 's/\.gpg(\x1B\[[0-9]+m)?( ->|$)/\1\2/g'
++	tree -N -C -l --noreport -P "${terms%|*}" --prune --matchdirs --ignore-case "$PREFIX" | tail -n +2 | sed -E 's/\.gpg('$'\033''\[[0-9]+m)?( ->|$)/\1\2/g'
+ }
+ 
+ cmd_grep() {
