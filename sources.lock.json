@@ -8,12 +8,28 @@
     "commit": "1078f2514d579178d5df7042c6a790e9c9b731ad",
     "primary_fingerprint": "AB9942E6D4A4CFC3412620A749FC7012A5DE03AE",
     "archive": "password-store-1.7.4-verified.tar",
-    "sha256": "dd0d62c38727553758e2d6e2d04abc4f37b5ca6b233af5836270bc477d94c20c"
+    "sha256": "dd0d62c38727553758e2d6e2d04abc4f37b5ca6b233af5836270bc477d94c20c",
+    "downstream_fork": {
+      "repository": "https://github.com/misja/sailfish-pass",
+      "upstream_repository": "https://github.com/zx2c4/password-store",
+      "base_commit": "1078f2514d579178d5df7042c6a790e9c9b731ad",
+      "branch": "sailfish/private-gpg",
+      "commit": "84e426cad45f4933661489c17b0c27c1b3d5915a",
+      "scope": "Records the same patches already applied by the RPM recipe; upstream archive authentication and patch application are unchanged."
+    }
   },
   "pass_otp": {
     "version": "1.2.0",
     "sha256": "5720a649267a240a4f7ba5a6445193481070049c1d08ba38b00d20fc551c3a67",
-    "status": "Historical pinned source; bounded synthetic/trial evidence exists; general release and current-target acceptance remain open."
+    "status": "Historical pinned source; bounded synthetic/trial evidence exists; general release and current-target acceptance remain open.",
+    "downstream_fork": {
+      "repository": "https://github.com/misja/pass-otp",
+      "upstream_repository": "https://github.com/pass-extension/pass-otp",
+      "base_commit": "1e9d10ca75ae1a8672a7f192809713463657778e",
+      "branch": "sailfish/stdin-private-backend",
+      "commit": "57e4c34dba31a3b01eed09b3d4222f9130a6282e",
+      "scope": "Records the same patches already applied by the RPM recipe; upstream archive authentication and patch application are unchanged."
+    }
   },
   "sdk_target": "SailfishOS-5.1.0.11-aarch64",
   "release_target": "sailfishos-5.2.0.18-aarch64",

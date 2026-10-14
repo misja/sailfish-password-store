@@ -1,6 +1,15 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Misja Hoebe <36168+misja@users.noreply.github.com>
+Date: Wed, 14 Oct 2026 20:54:38 +0200
+Subject: [PATCH] otp: use stdin and avoid secret-bearing diagnostics
+
+Preserves the existing Sailfish packaging patch; source behavior is unchanged.
+
+diff --git a/otp.bash b/otp.bash
+index d4c7756..114ef64 100755
 --- a/otp.bash
 +++ b/otp.bash
-@@ -49,7 +49,7 @@
+@@ -49,7 +49,7 @@ otp_parse_uri() {
    uri="${uri//\"/%22}"
  
    local pattern='^otpauth:\/\/(totp|hotp)(\/(([^:?]+)?(:([^:?]*))?))?\?(.+)$'
@@ -9,7 +18,7 @@
  
    otp_uri=${BASH_REMATCH[0]}
    otp_type=${BASH_REMATCH[1]}
-@@ -57,7 +57,7 @@
+@@ -57,7 +57,7 @@ otp_parse_uri() {
  
    otp_accountname=$(urldecode "${BASH_REMATCH[6]}")
    [[ -z $otp_accountname ]] && otp_accountname=$(urldecode "${BASH_REMATCH[4]}") || otp_issuer=$(urldecode "${BASH_REMATCH[4]}")
@@ -18,7 +27,7 @@
  
    local p=${BASH_REMATCH[7]}
    local params
-@@ -78,10 +78,10 @@
+@@ -78,10 +78,10 @@ otp_parse_uri() {
      fi
    done
  
@@ -31,7 +40,7 @@
  }
  
  otp_read_uri() {
-@@ -331,21 +331,21 @@
+@@ -331,21 +331,21 @@ cmd_otp_code() {
      fi
    done < <(echo "$contents")
  
@@ -62,7 +71,7 @@
        ;;
  
      *)
-@@ -353,7 +353,7 @@
+@@ -353,7 +353,7 @@ cmd_otp_code() {
        ;;
    esac
  
