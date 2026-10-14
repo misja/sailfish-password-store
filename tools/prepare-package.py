@@ -24,7 +24,8 @@ for component in ("pass", "tree", "pass_otp", "oath_toolkit"):
     require(hashlib.sha256(path("sources/" + filename).read_bytes()).hexdigest() == entry["sha256"],
             "Archive differs from lock: " + component)
 verification = json.loads(path("evidence/pass-tag-verification.json").read_text())
-require(verification["verify_tag_exit"] == 0 and
+require(verification["gpg_verify_exit"] == 0 and
+        verification["verification"] == "signed-tag-and-git-archive" and
         verification["tag_object"] == lock["pass"]["tag_object"] and
         verification["commit"] == lock["pass"]["commit"] and
         verification["allowed_primary_fingerprint"] == lock["pass"]["primary_fingerprint"] and

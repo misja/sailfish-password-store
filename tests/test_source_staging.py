@@ -30,7 +30,7 @@ class SourceStagingTests(unittest.TestCase):
         self.lock["bootstrap"]["oath_lgpl_notice"]["sha256"] = hashlib.sha256(notice).hexdigest()
         (self.root / "sources.lock.json").write_text(json.dumps(self.lock))
         self.pass_record = {
-            "verify_tag_exit": 0, "tag_object": self.lock["pass"]["tag_object"],
+            "gpg_verify_exit": 0, "verification": "signed-tag-and-git-archive", "tag_object": self.lock["pass"]["tag_object"],
             "commit": self.lock["pass"]["commit"],
             "allowed_primary_fingerprint": self.lock["pass"]["primary_fingerprint"],
             "verified_archive_sha256": self.lock["pass"]["sha256"]}
@@ -64,7 +64,7 @@ class SourceStagingTests(unittest.TestCase):
             self.assertTrue((self.root / "sources" / name).is_file(), name)
 
     def test_failed_tag_verification_prevents_staging(self):
-        self.pass_record["verify_tag_exit"] = 1
+        self.pass_record["gpg_verify_exit"] = 1
         self.write_pass_record()
         result = self.stage()
         self.assertNotEqual(result.returncode, 0)
