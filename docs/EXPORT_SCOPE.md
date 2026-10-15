@@ -9,15 +9,19 @@ Source identities are pinned in sources.lock.json where present. Obtain and
 authenticate the upstream archives, public release keys and signatures before
 building. A private key is not a build input.
 
-Some tools expect sources and dated verification records under sources/,
-artifacts/, build/ or evidence/. These inputs are not copied wholesale into
-this source snapshot. SDK/device harnesses also require an explicitly approved
-test environment. A clean-checkout build has not been established.
+Public source archives and verification records can be recreated with the
+sibling workspace's tools/fetch-sources.py. It uses temporary public-only keyrings
+and preserves the existing archive/version/signer pins. See the
+[public source bootstrap guide](https://github.com/misja/sailfish-workspace/blob/main/docs/development/source-bootstrap.md).
+Generated sources/ and evidence/ inputs are ignored; do not copy historical
+private trial evidence to satisfy staging.
 
-pass source staging requires authenticated archives, a public release key,
-pass-tag-verification and tree-source records. Native pinentry packaging
-requires the pinned Sailfish Secrets archive and matching Assuan sources.
-Complete source and relink delivery remains a package distribution gate.
+SDK build entry points accept SAILFISH_SDK_ROOT and require an explicit
+SAILFISH_SDK_TARGET. Follow the ordinary official SDK route, normally Docker
+directly on Linux. The maintainer's outer LXC container is optional. Historical
+test harnesses can still have fixed paths; a clean SDK build and complete
+source/binary RPM acceptance remain open. Native vendor-source and relink inputs
+are separate gates.
 
 Production agent lifecycle, provider/upgrade behavior and exact Sailfish 5.2
 vendor provenance remain open. Historical 5.2.0.18 results do not establish

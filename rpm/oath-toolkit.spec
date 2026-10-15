@@ -8,7 +8,7 @@ Summary: One-time password components
 License: GPL-3.0-or-later AND LGPL-2.1-or-later
 URL: https://oath-toolkit.codeberg.page/
 Source0: oath-toolkit-2.6.14.tar.gz
-Source1: oath-source-20261012.json
+Source1: oath-source.json
 Source2: oath-COPYING.LESSER
 BuildRequires: chrpath
 

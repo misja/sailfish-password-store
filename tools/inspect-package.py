@@ -78,7 +78,7 @@ for name, original in [('LICENSE', root / 'LICENSE'),
                        ('private-gpg.patch', root / 'rpm/private-gpg.patch'),
                        ('sailfish-pass', root / 'runtime/sailfish-pass'),
                        ('sources.lock.json', root / 'sources.lock.json'),
-                       ('pass-tag-verification-20261011.json', root / 'evidence/pass-tag-verification-20261011.json'),
+                       ('pass-tag-verification.json', root / 'evidence/pass-tag-verification.json'),
                        ('pass-release-key.asc', root / 'sources/pass-release-key.asc'),
                        ('password-store-1.7.4-verified.tar', root / 'sources/password-store-1.7.4-verified.tar'),
                        ('sailfish-pass.spec', root / 'rpm/sailfish-pass.spec')]:
@@ -100,7 +100,7 @@ assert tree_binary.startswith(b'\x7fELF')
 assert not query(tree_rpm, '--scripts').strip()
 tree_sources = payload(tree_srpm)
 for name, original in [('tree-2.3.2.tar.gz', root / 'sources/tree-2.3.2.tar.gz'),
-                       ('tree-source-20261011.json', root / 'evidence/tree-source-20261011.json'),
+                       ('tree-source.json', root / 'evidence/tree-source.json'),
                        ('sailfish-pass-tree.spec', root / 'rpm/sailfish-pass-tree.spec')]:
     assert tree_sources[name][1] == original.read_bytes(), name
 with tempfile.TemporaryDirectory(prefix='synthetic-tree-inspect-') as temporary:

@@ -19,3 +19,6 @@ private-keys-v1.d/
 secring.gpg
 trustdb.gpg
 S.gpg-agent*
+
+# Generated public-source verification and local trial records
+/evidence/

@@ -9,7 +9,7 @@ Source0: password-store-1.7.4-verified.tar
 Source1: private-gpg.patch
 Source2: sailfish-pass
 Source3: sources.lock.json
-Source4: pass-tag-verification-20261011.json
+Source4: pass-tag-verification.json
 Source5: pass-release-key.asc
 Source6: LICENSE
 Source7: LICENSING.md
