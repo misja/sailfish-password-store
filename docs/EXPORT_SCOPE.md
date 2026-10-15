@@ -19,8 +19,10 @@ private trial evidence to satisfy staging.
 SDK build entry points accept SAILFISH_SDK_ROOT and require an explicit
 SAILFISH_SDK_TARGET. Follow the ordinary official SDK route, normally Docker
 directly on Linux. The maintainer's outer LXC container is optional. Historical
-test harnesses can still have fixed paths; a clean SDK build and complete
-source/binary RPM acceptance remain open. Native vendor-source and relink inputs
+test harnesses can still have fixed paths; the clean SDK build and main source/binary RPM inspections are recorded in
+[the build report](https://github.com/misja/sailfish-workspace/blob/main/docs/development/clean-sdk-build-20261015.md).
+The tested bootstrap fixes await review in issue #5. Auxiliary debug-package
+delivery and release acceptance remain separate. Native vendor-source and relink inputs
 are separate gates.
 
 Production agent lifecycle, provider/upgrade behavior and exact Sailfish 5.2

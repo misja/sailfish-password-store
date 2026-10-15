@@ -11,6 +11,10 @@ cd "$project_dir"
 python3 tools/prepare-package.py
 mkdir -p evidence
 build_log=$(mktemp "$project_dir/evidence/sdk-build.XXXXXX.log")
+if ! test -d .sfdk; then
+  "$sdk_root/bin/sfdk" -c "target=$SAILFISH_SDK_TARGET" \
+    -c specfile=rpm/sailfish-pass.spec build-init
+fi
 for recipe in sailfish-pass-tree oath-toolkit sailfish-pass sailfish-pass-otp; do
   "$sdk_root/bin/sfdk" -c "target=$SAILFISH_SDK_TARGET" \
     -c "specfile=rpm/$recipe.spec" -c no-pull-build-requires -c no-vcs-apply build-shell rpmbuild -ba \
