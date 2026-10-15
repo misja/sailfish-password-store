@@ -2,12 +2,14 @@
 """Read RPM metadata/payloads without installing or running crypto."""
 import argparse
 import hashlib
+from datetime import datetime, timezone
 import re
 import json
 from pathlib import Path
 import stat
 import subprocess
 import tempfile
+import tarfile
 
 root = Path(__file__).resolve().parent.parent
 parser = argparse.ArgumentParser(description=__doc__)
@@ -83,7 +85,7 @@ for name, original in [('LICENSE', root / 'LICENSE'),
                        ('password-store-1.7.4-verified.tar', root / 'sources/password-store-1.7.4-verified.tar'),
                        ('sailfish-pass.spec', root / 'rpm/sailfish-pass.spec')]:
     assert source_files[name][1] == original.read_bytes(), name
-record = {'date': '2026-10-11', 'binary_sha256': hashlib.sha256(binary.read_bytes()).hexdigest(),
+record = {'date': datetime.now(timezone.utc).date().isoformat(), 'binary_sha256': hashlib.sha256(binary.read_bytes()).hexdigest(),
           'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
           'requires': requires, 'provides': provides,
           'payload': query(binary, '--list'), 'source_files': sorted(source_files),
@@ -119,6 +121,99 @@ record['tree'] = {'binary_sha256': hashlib.sha256(tree_rpm.read_bytes()).hexdige
                   'payload': query(tree_rpm, '--list'), 'version_from_built_binary': tree_version,
                   'checks': ['AArch64', 'no build RPATH/RUNPATH', 'private paths only',
                              'no scriptlets', 'SRPM inputs match', 'built binary version executes']}
+# Inspect OATH/OTP payloads and matching source packages without running crypto.
+lock = json.loads((root / 'sources.lock.json').read_text())
+oath_version = lock['oath_toolkit']['version']
+oath_identity = oath_version + '-0.3'
+oath_source = root / f'build/rpmbuild/SRPMS/oath-toolkit-{oath_identity}.src.rpm'
+oath_source_files = payload(oath_source)
+for name, original in [
+    (lock['oath_toolkit']['archive'], root / 'sources' / lock['oath_toolkit']['archive']),
+    ('oath-source.json', root / 'evidence/oath-source.json'),
+    ('oath-COPYING.LESSER', root / 'sources/oath-COPYING.LESSER'),
+    ('oath-toolkit.spec', root / 'rpm/oath-toolkit.spec')]:
+    assert oath_source_files[name][1] == original.read_bytes(), name
+with tarfile.open(root / 'sources' / lock['oath_toolkit']['archive']) as archive:
+    oath_copying = archive.extractfile(f'oath-toolkit-{oath_version}/COPYING').read()
+oath_results = {}
+for package in ('sailfish-liboath', 'sailfish-oathtool'):
+    rpm = root / f'build/rpmbuild/RPMS/aarch64/{package}-{oath_identity}.aarch64.rpm'
+    entries = payload(rpm)
+    prefix = 'usr/libexec/sailfish-oath/'
+    allowed = (prefix, f'usr/share/licenses/{package}', f'usr/share/doc/{package}')
+    assert all(name == 'usr/libexec/sailfish-oath' or name.startswith(allowed) for name in entries)
+    assert not query(rpm, '--scripts').strip()
+    assert not re.search(r'^liboath\.so', query(rpm, '--provides'), re.M)
+    assert not re.search(r'^liboath\.so', query(rpm, '--requires'), re.M)
+    assert entries[f'usr/share/licenses/{package}/COPYING'][1] == oath_copying
+    if package == 'sailfish-liboath':
+        assert entries['usr/share/licenses/sailfish-liboath/COPYING.LESSER'][1] == (root / 'sources/oath-COPYING.LESSER').read_bytes()
+        assert entries['usr/share/doc/sailfish-liboath/source-verification.json'][1] == (root / 'evidence/oath-source.json').read_bytes()
+        assert 'usr/libexec/sailfish-oath/lib/liboath.so' not in entries
+    else:
+        assert f'sailfish-liboath = {oath_identity}' in query(rpm, '--requires').splitlines()
+    assert query(rpm, '--qf', '%{SOURCERPM}') == oath_source.name
+    elf = []
+    with tempfile.TemporaryDirectory(prefix='synthetic-oath-inspect-') as temporary:
+        for name, (mode, data) in entries.items():
+            if not data.startswith(b'\x7fELF'): continue
+            executable = Path(temporary) / 'object'
+            executable.write_bytes(data)
+            header = subprocess.check_output(['readelf', '-h', str(executable)], text=True)
+            dynamic = subprocess.check_output(['readelf', '-d', str(executable)], text=True)
+            assert 'AArch64' in header, name
+            paths = re.findall(r'\((?:RUNPATH|RPATH)\).*\[(.*?)\]', dynamic)
+            expected = ['/usr/libexec/sailfish-oath/lib']
+            assert paths == expected if name.endswith('/bin/oathtool') else paths in ([], expected), (name, paths)
+            elf.append({'path': name, 'runpath': paths})
+    assert elf
+    oath_results[package] = {
+        'sha256': hashlib.sha256(rpm.read_bytes()).hexdigest(),
+        'requires': query(rpm, '--requires'), 'provides': query(rpm, '--provides'), 'elf': elf}
+record['oath'] = {
+    'source_sha256': hashlib.sha256(oath_source.read_bytes()).hexdigest(),
+    'source_inputs': sorted(oath_source_files), 'packages': oath_results,
+    'checks': ['matching SRPM inputs', 'private payload and library resolution',
+               'AArch64 ELF', 'no scriptlets', 'exact GPL/LGPL notices']}
+otp_version = lock['pass_otp']['version']
+otp_identity = otp_version + '-0.4'
+otp_rpm = root / f'build/rpmbuild/RPMS/noarch/sailfish-pass-otp-{otp_identity}.noarch.rpm'
+otp_srpm = root / f'build/rpmbuild/SRPMS/sailfish-pass-otp-{otp_identity}.src.rpm'
+otp_files = payload(otp_rpm)
+otp_sources = payload(otp_srpm)
+otp_archive = root / f'sources/pass-otp-{otp_version}.tar.gz'
+for name, original in [
+    (otp_archive.name, otp_archive),
+    ('pass-otp-stdin.patch', root / 'patches/pass-otp-stdin.patch'),
+    ('pass-otp-private-backend.patch', root / 'patches/pass-otp-private-backend.patch'),
+    ('sailfish-pass-otp.spec', root / 'rpm/sailfish-pass-otp.spec')]:
+    assert otp_sources[name][1] == original.read_bytes(), name
+with tarfile.open(otp_archive) as archive:
+    original_script = archive.extractfile(f'pass-otp-{otp_version}/otp.bash').read()
+    original_license = archive.extractfile(f'pass-otp-{otp_version}/LICENSE').read()
+with tempfile.TemporaryDirectory(prefix='synthetic-otp-inspect-') as temporary:
+    prepared = Path(temporary) / 'otp.bash'
+    prepared.write_bytes(original_script)
+    for patch in ('pass-otp-stdin.patch', 'pass-otp-private-backend.patch'):
+        subprocess.run(['patch', '--batch', '--forward', '-p1', '-i', str(root / 'patches' / patch)],
+                       cwd=temporary, check=True, capture_output=True)
+    assert otp_files['usr/libexec/sailfish-pass/password-store/extensions/otp.bash'][1] == prepared.read_bytes()
+assert otp_files['usr/share/licenses/sailfish-pass-otp/LICENSE'][1] == original_license
+assert all(name.startswith(('usr/libexec/sailfish-pass/password-store/extensions/otp.bash',
+                           'usr/share/man/man1/sailfish-pass-otp.1',
+                           'usr/share/licenses/sailfish-pass-otp')) for name in otp_files)
+assert not query(otp_rpm, '--scripts').strip()
+assert query(otp_rpm, '--qf', '%{SOURCERPM}') == otp_srpm.name
+otp_requires = query(otp_rpm, '--requires').splitlines()
+assert f'sailfish-pass = {identity}' in otp_requires
+assert f'sailfish-oathtool = {oath_identity}' in otp_requires
+assert '/usr/libexec/sailfish-oath/bin/oathtool' in otp_requires
+record['otp'] = {
+    'binary_sha256': hashlib.sha256(otp_rpm.read_bytes()).hexdigest(),
+    'source_sha256': hashlib.sha256(otp_srpm.read_bytes()).hexdigest(),
+    'source_inputs': sorted(otp_sources), 'requires': otp_requires,
+    'checks': ['matching SRPM inputs', 'exact upstream-plus-two-patches payload',
+               'private backend dependency', 'exact upstream license', 'no scriptlets']}
 output.parent.mkdir(parents=True, exist_ok=True)
 output.write_text(json.dumps(record, indent=2) + '\n')
 print(json.dumps(record, indent=2))
