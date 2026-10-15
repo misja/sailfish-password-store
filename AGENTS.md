@@ -1,6 +1,6 @@
 # Agent instructions — Sailfish workspace
 
-Baseline version: 1.1.0 (2026-10-14).
+Baseline version: 1.2.0 (2026-10-15).
 
 These are operational instructions for coding assistants. Contributors should
 start with CONTRIBUTING.md. Misja Hoebe (@misja) is the human maintainer and
@@ -17,3 +17,21 @@ retains responsibility for merge and release decisions.
 - Use one spec/plan/task set per feature. Record concise artifact handoffs in STATUS.md. Do not create speculative app/common-library repositories.
 - Run checks appropriate to the change; record failures and limitations. Never label unexecuted tests as passed.
 - Child repositories must contain this essential baseline themselves: a parent file outside their Git root is not assumed loaded. Copy changes with baseline version and reviewed diff.
+
+## Mandatory review gate (maintainer instruction, 2026-10-15)
+
+Apply the staged-role workflow before design/build work. Record a bounded scope,
+acceptance criteria, accountable owner and required reviewer in the existing
+issue/handoff. Substantial architecture/scope decisions require a separate agent
+review before implementation, explicitly checking simpler alternatives and
+maintenance cost. Crypto, runtime/package isolation and release-critical changes
+also require a separate review of the resulting changes before maintainer review.
+The maintainer explicitly authorizes delegation for these required reviews.
+Builder self-review, changing role labels, passing tests or human merge approval
+do not substitute for the separate assessment. Resolve findings first; report an
+unavailable required reviewer rather than silently proceeding. Stay autonomous
+within the reviewed scope; do not add speculative infrastructure or duplicate
+process artifacts. Separate assistant review is not a human security audit or
+release approval. Shared role details: sailfish-workspace/docs/development/agent-governance.md
+(resolve from the workspace parent); child repositories retain this gate even
+when cloned alone.
