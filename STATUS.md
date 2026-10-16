@@ -1,9 +1,11 @@
 # Current source status
 
 Experimental packages; general release acceptance remains open.
-Live work: [upstream review #4](https://github.com/misja/sailfish-password-store/issues/4).
-Owner: primary Builder; separate reviewer checks source and package evidence;
-Misja Hoebe decides merges and release acceptance.
+Upstream review [#4](https://github.com/misja/sailfish-password-store/issues/4)
+is complete: both source PRs, package PR #8 and workspace PR #11 are merged.
+Current work: release preparation under [#1](https://github.com/misja/sailfish-password-store/issues/1)
+and workspace delivery #2. Primary assistant prepares delivery; a separate reviewer
+checks release evidence; Misja Hoebe decides release/publication.
 
 Release bases stay pass 1.7.4 / OTP 1.2.0. Two attributed upstream backports
 close tree FD3 and preserve an OTP append's last line without a newline.
