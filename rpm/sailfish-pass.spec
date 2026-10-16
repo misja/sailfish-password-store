@@ -1,6 +1,6 @@
 Name: sailfish-pass
 Version: 1.7.4
-Release: 0.4
+Release: 0.5
 Summary: Private pass CLI feasibility package
 License: GPL-2.0-or-later AND GPL-3.0-or-later
 URL: https://www.passwordstore.org/
@@ -13,13 +13,14 @@ Source4: pass-tag-verification.json
 Source5: pass-release-key.asc
 Source6: LICENSE
 Source7: LICENSING.md
+Source8: pass-tree-fd3.patch
 BuildRequires: gnu-bash
 # Sailfish SDK supplies GNU Make 4.4.1 as build tooling (not a target RPM).
 # See evidence/dependency-inventory-20261011.md; no target dependency bypass.
 BuildRequires: patch
 Requires: /usr/bin/busybox
 Requires: /usr/bin/env
-Requires: sailfish-gnupg-private = 2.5.24-0.3
+Requires: sailfish-gnupg-private = 2.5.24-0.6
 Requires: gnu-bash >= 5.0.18
 Requires: /usr/bin/bash
 Requires: /usr/bin/getopt
@@ -41,6 +42,7 @@ prototype has not completed representative device end-to-end acceptance.
 %prep
 %setup -q -n password-store-1.7.4
 patch -p1 < %{SOURCE1}
+patch -p1 < %{SOURCE8}
 
 %build
 /usr/bin/bash -n src/password-store.sh

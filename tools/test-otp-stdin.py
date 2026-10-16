@@ -8,13 +8,16 @@ assert hashlib.sha256(archive.read_bytes()).hexdigest()=='5720a649267a240a4f7ba5
 src=root/'inspect/pass-otp-1.2.0/otp.bash'
 with tarfile.open(archive) as tar:
  assert tar.extractfile('pass-otp-1.2.0/otp.bash').read()==src.read_bytes()
+ upstream_append_test=tar.extractfile('pass-otp-1.2.0/test/append.t').read()
 parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,default=root/'evidence/otp-stdin-host-20261012.json');options=parser.parse_args()
 times=[59,1111111109,1111111111,1234567890,2000000000,20000000000]
 expected={'SHA1':['94287082','07081804','14050471','89005924','69279037','65353130'],'SHA256':['46119246','68084774','67062674','91819424','90698825','77737706'],'SHA512':['90693936','25091201','99943326','93441116','38618901','47863826']}
 hotp=['755224','287082','359152','969429','338314','254676','287922','162583','399871','520489']
 with tempfile.TemporaryDirectory(prefix='synthetic-otp-stdin-') as td:
  d=Path(td);(d/'otp.bash').write_bytes(src.read_bytes())
- subprocess.run(['patch','-p1','-i',str(root/'patches/pass-otp-stdin.patch')],cwd=d,check=True,capture_output=True)
+ (d/'test').mkdir();(d/'test/append.t').write_bytes(upstream_append_test)
+ for name in ('pass-otp-stdin.patch', 'pass-otp-private-backend.patch', 'pass-otp-final-line.patch'):
+  subprocess.run(['patch','-p1','-i',str(root/'patches'/name)],cwd=d,check=True,capture_output=True)
  text=(d/'otp.bash').read_text();text=text[:text.rindex('case "$1" in')]
  (d/'functions.bash').write_text(text)
  (d/'gpg').write_text('#!/bin/bash\ncat "${@: -1}"\n');(d/'gpg').chmod(0o700)

@@ -43,8 +43,8 @@ class SourceStagingTests(unittest.TestCase):
                                 signer_fingerprint=self.lock[component]["signer_fingerprint"],
                                 verification="gpg-detached-signature")
             (self.root / "evidence" / record).write_text(json.dumps(evidence))
-        for file in ("LICENSE", "LICENSING.md", "rpm/private-gpg.patch", "runtime/sailfish-pass",
-                     "patches/pass-otp-stdin.patch", "patches/pass-otp-private-backend.patch",
+        for file in ("LICENSE", "LICENSING.md", "rpm/private-gpg.patch", "rpm/pass-tree-fd3.patch", "runtime/sailfish-pass",
+                     "patches/pass-otp-stdin.patch", "patches/pass-otp-private-backend.patch", "patches/pass-otp-final-line.patch",
                      "sources/pass-release-key.asc"):
             (self.root / file).write_text("synthetic public input: " + file)
 
@@ -59,7 +59,7 @@ class SourceStagingTests(unittest.TestCase):
         result = self.stage()
         self.assertEqual(result.returncode, 0, result.stderr)
         for name in ("private-gpg.patch", "sailfish-pass", "sources.lock.json", "LICENSE",
-                     "LICENSING.md", "pass-otp-stdin.patch", "pass-otp-private-backend.patch",
+                     "LICENSING.md", "pass-otp-stdin.patch", "pass-otp-private-backend.patch", "pass-otp-final-line.patch", "pass-tree-fd3.patch",
                      "pass-tag-verification.json", "tree-source.json", "oath-source.json"):
             self.assertTrue((self.root / "sources" / name).is_file(), name)
 

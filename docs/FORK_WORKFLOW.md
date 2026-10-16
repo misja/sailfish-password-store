@@ -30,3 +30,5 @@ establish runtime or release acceptance.
 The recipes continue to authenticate upstream archives and apply these patches.
 Do not replace them with already patched fork archives and apply the patches
 again. Upstream updates and upstream submissions are separate reviewed work.
+
+Selected release bases and backports: [2026-10-16 evidence](upstream-backports-20261016.json).

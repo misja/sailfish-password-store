@@ -1,0 +1,144 @@
+{
+  "artifacts": {
+    "otp": {
+      "binary_sha256": "51abc1fdbbae3b53eddeb043b29f488d3e17e25811dc11405395d911598eaca4",
+      "checks": [
+        "matching SRPM inputs",
+        "exact upstream-plus-three-patches payload",
+        "private backend dependency",
+        "exact upstream license",
+        "no scriptlets"
+      ],
+      "requires": [
+        "/usr/bin/env",
+        "/usr/libexec/sailfish-oath/bin/oathtool",
+        "rpmlib(CompressedFileNames) <= 3.0.4-1",
+        "rpmlib(FileDigests) <= 4.6.0-1",
+        "rpmlib(PayloadFilesHavePrefix) <= 4.0-1",
+        "rpmlib(PayloadIsZstd) <= 5.4.18-1",
+        "sailfish-oathtool = 2.6.14-0.3",
+        "sailfish-pass = 1.7.4-0.5"
+      ],
+      "source_inputs": [
+        "pass-otp-1.2.0.tar.gz",
+        "pass-otp-final-line.patch",
+        "pass-otp-private-backend.patch",
+        "pass-otp-stdin.patch",
+        "sailfish-pass-otp.spec"
+      ],
+      "source_sha256": "8a9dac6a306c84bf5c451178676d987de18c7fd585d122ce7070f1313f9f547f"
+    },
+    "pass": {
+      "binary_sha256": "ecc2fe06c94b9bada934eccf994293e7c502895837a0fad513b87ca2bf9cf2ec",
+      "requires": [
+        "(/bin/stat or /usr/bin/stat)",
+        "/bin/sed",
+        "/usr/bin/base64",
+        "/usr/bin/bash",
+        "/usr/bin/busybox",
+        "/usr/bin/busybox",
+        "/usr/bin/env",
+        "/usr/bin/env",
+        "/usr/bin/find",
+        "/usr/bin/getopt",
+        "/usr/bin/grep",
+        "/usr/bin/id",
+        "/usr/bin/tr",
+        "/usr/libexec/sailfish-pass-tools/bin/tree",
+        "gnu-bash >= 5.0.18",
+        "rpmlib(CompressedFileNames) <= 3.0.4-1",
+        "rpmlib(FileDigests) <= 4.6.0-1",
+        "rpmlib(PayloadFilesHavePrefix) <= 4.0-1",
+        "rpmlib(PayloadIsZstd) <= 5.4.18-1",
+        "rpmlib(RichDependencies) <= 4.12.0-1",
+        "sailfish-gnupg-private = 2.5.24-0.6",
+        "sailfish-pass-tree = 2.3.2"
+      ],
+      "source_sha256": "0df7a3f3f8671544cb11b044e317438ab6f71703e157ec61b84806a99f562e94"
+    }
+  },
+  "build_environment": {
+    "directory": "/home/ubuntu/pass-backports-20261016",
+    "scope": "only pass and OTP rebuilt; unchanged tree/OATH binary and source RPMs reused",
+    "sdk": "3.13.5",
+    "target": "SailfishOS-5.1.0.11-aarch64"
+  },
+  "builder_checks": {
+    "existing_synthetic_otp_checks": 34,
+    "focused_host_and_sdk_regressions": "show/find inherited FD3 closure plus BusyBox colored listing; exact no-newline OTPappend; old-source failures reproduced",
+    "full_fork_patch_tree_equality": true,
+    "matching_binary_and_source_inspection_passed": true,
+    "packaged_otp_exact_upstream_plus_three_patches": true,
+    "pass_and_otp_builds_exit": 0,
+    "source_staging_tests": 4
+  },
+  "candidate_versions": {
+    "otp": "1.2.0-0.5",
+    "pass": "1.7.4-0.5",
+    "required_runtime": "2.5.24-0.6"
+  },
+  "date": "2026-10-16",
+  "existing_otp_security_result": {
+    "checks": 34,
+    "coverage": [
+      "18 RFC6238 TOTP extension vectors; seed stdin and absent backend argv",
+      "10 RFC4226 HOTP backend vectors",
+      "HOTP upstream increment-before-code preserved",
+      "Backend failure leaves HOTP counter unchanged"
+    ],
+    "passed": true,
+    "patch_sha256": "dcd2014f11b2ccb6b544de675556f05dc565bba81719942fe27b20e7692e88c1",
+    "scope": "Host oathtool2.6.14 and patched extension functions; synthetic plaintext stubs, not encrypted/native acceptance"
+  },
+  "fixture_corrections": [
+    "Set TERM for actual color/BusyBoxESC exercise",
+    "Current tree2.3.2 did not reproduce oldJSON-to-FD3 behavior; explicit inheritedFD3observer tests upstreamcontract instead",
+    "Whole OTPbackport also modifies test/append.t; existing OTP and RPM-inspection fixtures now prepare that file before patching"
+  ],
+  "fork_heads": {
+    "otp": "e5dc12c98c3b134eb8e65f00afabee9b525fac93",
+    "pass": "24d4ab48afcc66dcccc14591c41c6fd2c750a4a3"
+  },
+  "issue": 4,
+  "limits": [
+    "Release archive identities/authentication unchanged; backports identified by exactcommit/HTTPS, not authenticated upstreamauthor signatures",
+    "No package/dependency/target installation; no device or realdata operation; no upstreamsubmission",
+    "SDK/static and synthetic-stub checks do not establish native target/release acceptance",
+    "No general lifecycle framework or repeated historicalRPMordering trial"
+  ],
+  "raw_package_inspection_sha256": "6ebc4f680bfade88549204688e3976594d107b80aa7e28bca743ac4030a49d4d",
+  "release_bases": {
+    "otp": "1e9d10ca75ae1a8672a7f192809713463657778e",
+    "pass": "1078f2514d579178d5df7042c6a790e9c9b731ad"
+  },
+  "separate_assistant_review": {
+    "checks": [
+      "Independent assessment of the two upstream backports and pass conflict resolution",
+      "Independent recomputation of all four newly built binary/source RPM hashes",
+      "Full packaged pass script equals reviewed fork after existing Makefile installation transformations",
+      "Full packaged OTP script equals reviewed fork",
+      "Direct requirements agree with runtime2.5.24-0.6,pass1.7.4-0.5 and private OATH2.6.14-0.3"
+    ],
+    "limits": "Separate assistant source/packaging review, not human audit or native/device/release acceptance",
+    "method": "Reviewer recomputed artifact hashes; raw packaged scripts and requirements were subsequently collected by Builder and independently compared/assessed by reviewer after its SDK invocation stalled",
+    "result": "No blocker within bounded source and artifact review"
+  },
+  "tested_files_sha256": {
+    "patches/pass-otp-final-line.patch": "a60911c8ecacc7c07e2ccc35950180d10c2968ae5422cece6363b71555c5478d",
+    "patches/pass-otp-private-backend.patch": "de599d27feee6aedfc276d38839046604e573e2fc9067f7dda5438aafb8be2db",
+    "patches/pass-otp-stdin.patch": "dcd2014f11b2ccb6b544de675556f05dc565bba81719942fe27b20e7692e88c1",
+    "rpm/pass-tree-fd3.patch": "53d39f6e5bd8deda59ba3c030c03ee7594ededc9885226da37b93543331a749b",
+    "rpm/private-gpg.patch": "5e5346531b0f56b6426e2b38bcb43b9df6cb3e0cf07bd87cb0189967f1820970",
+    "rpm/sailfish-pass-otp.spec": "54d33f8cf10c3fff8461c4025d72ed16d0da4a62f0b78b69572f944b9ed942ac",
+    "rpm/sailfish-pass.spec": "9d6747fe1bf021db1eea19f34fbea7a6dac635a17d5ba99fcc1fd881908e2cd4",
+    "sources.lock.json": "4ec656472568c0528df4df18e20844c273b38a9b16e79edc49640f3b486c874b",
+    "tools/inspect-package.py": "1069fd9796074c68e3efc0559813fcdf101979f695cc46ebec5d6821e8b7456e",
+    "tools/prepare-package.py": "678075210e5d9e6f51f7ec01b0f22d7bcf759a04b9512d327f2e2117340ceb0a",
+    "tools/test-otp-stdin.py": "972bc25e9ab88ce8f7df85f891af20cabd52340e972f36d05a8fbe9ed31bc3d4",
+    "tools/test-upstream-backports.py": "fb6bc060b3569e4687924af4835d637f75b422da4f6076f0c1b55e6d52a38344"
+  },
+  "upstream_backports": {
+    "otp": "42307e4ec3f226547e4742f25cd92aa39db53627",
+    "pass": "eea24967a002a2a81ae9b97a1fe972b5287f3a09"
+  }
+}
