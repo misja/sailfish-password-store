@@ -18,3 +18,6 @@ changed binary/source RPMs built and passed inspection in the installed SDK
 See the [bounded record](docs/upstream-backports-20261016.json) for identities,
 review and limitations. No package/dependency installation, device operation,
 real-data access or upstream submission occurred. Device and release gates remain.
+Separate source/artifact review found no blocker: four artifact hashes verified,
+full packaged scripts match the reviewed forks after installation transforms,
+and dependencies are coherent. This is not human security/release acceptance.

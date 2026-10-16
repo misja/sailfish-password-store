@@ -111,6 +111,18 @@
     "otp": "1e9d10ca75ae1a8672a7f192809713463657778e",
     "pass": "1078f2514d579178d5df7042c6a790e9c9b731ad"
   },
+  "separate_assistant_review": {
+    "checks": [
+      "Independent assessment of the two upstream backports and pass conflict resolution",
+      "Independent recomputation of all four newly built binary/source RPM hashes",
+      "Full packaged pass script equals reviewed fork after existing Makefile installation transformations",
+      "Full packaged OTP script equals reviewed fork",
+      "Direct requirements agree with runtime2.5.24-0.6,pass1.7.4-0.5 and private OATH2.6.14-0.3"
+    ],
+    "limits": "Separate assistant source/packaging review, not human audit or native/device/release acceptance",
+    "method": "Reviewer recomputed artifact hashes; raw packaged scripts and requirements were subsequently collected by Builder and independently compared/assessed by reviewer after its SDK invocation stalled",
+    "result": "No blocker within bounded source and artifact review"
+  },
   "tested_files_sha256": {
     "patches/pass-otp-final-line.patch": "a60911c8ecacc7c07e2ccc35950180d10c2968ae5422cece6363b71555c5478d",
     "patches/pass-otp-private-backend.patch": "de599d27feee6aedfc276d38839046604e573e2fc9067f7dda5438aafb8be2db",
