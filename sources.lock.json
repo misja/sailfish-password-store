@@ -14,8 +14,11 @@
       "upstream_repository": "https://github.com/zx2c4/password-store",
       "base_commit": "1078f2514d579178d5df7042c6a790e9c9b731ad",
       "branch": "sailfish/private-gpg",
-      "commit": "84e426cad45f4933661489c17b0c27c1b3d5915a",
-      "scope": "Records the same patches already applied by the RPM recipe; upstream archive authentication and patch application are unchanged."
+      "commit": "24d4ab48afcc66dcccc14591c41c6fd2c750a4a3",
+      "scope": "Records the same patches already applied by the RPM recipe; upstream archive authentication and patch application are unchanged.",
+      "upstream_backports": [
+        "eea24967a002a2a81ae9b97a1fe972b5287f3a09"
+      ]
     }
   },
   "pass_otp": {
@@ -27,8 +30,11 @@
       "upstream_repository": "https://github.com/pass-extension/pass-otp",
       "base_commit": "1e9d10ca75ae1a8672a7f192809713463657778e",
       "branch": "sailfish/stdin-private-backend",
-      "commit": "57e4c34dba31a3b01eed09b3d4222f9130a6282e",
-      "scope": "Records the same patches already applied by the RPM recipe; upstream archive authentication and patch application are unchanged."
+      "commit": "e5dc12c98c3b134eb8e65f00afabee9b525fac93",
+      "scope": "Records the same patches already applied by the RPM recipe; upstream archive authentication and patch application are unchanged.",
+      "upstream_backports": [
+        "42307e4ec3f226547e4742f25cd92aa39db53627"
+      ]
     }
   },
   "sdk_target": "SailfishOS-5.1.0.11-aarch64",

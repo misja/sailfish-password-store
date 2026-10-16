@@ -71,6 +71,7 @@ assert 'gnupg2' not in requires
 assert 'gnu-bash >= 5.0.18' in requires
 assert b'\\x1B' not in script
 assert b"$'\\033'" in script
+assert script.count(b' 3>&- | tail -n +2') == 2
 provides = query(binary, '--provides')
 assert provides.strip() == f'sailfish-pass = {identity}'
 assert not query(binary, '--scripts').strip()
@@ -78,6 +79,7 @@ source_files = payload(source)
 for name, original in [('LICENSE', root / 'LICENSE'),
                        ('LICENSING.md', root / 'LICENSING.md'),
                        ('private-gpg.patch', root / 'rpm/private-gpg.patch'),
+                       ('pass-tree-fd3.patch', root / 'rpm/pass-tree-fd3.patch'),
                        ('sailfish-pass', root / 'runtime/sailfish-pass'),
                        ('sources.lock.json', root / 'sources.lock.json'),
                        ('pass-tag-verification.json', root / 'evidence/pass-tag-verification.json'),
@@ -176,7 +178,9 @@ record['oath'] = {
     'checks': ['matching SRPM inputs', 'private payload and library resolution',
                'AArch64 ELF', 'no scriptlets', 'exact GPL/LGPL notices']}
 otp_version = lock['pass_otp']['version']
-otp_identity = otp_version + '-0.4'
+otp_spec = (root / 'rpm/sailfish-pass-otp.spec').read_text()
+otp_release = re.search(r'^Release:\s+(\S+)$', otp_spec, re.M)[1]
+otp_identity = otp_version + '-' + otp_release
 otp_rpm = root / f'build/rpmbuild/RPMS/noarch/sailfish-pass-otp-{otp_identity}.noarch.rpm'
 otp_srpm = root / f'build/rpmbuild/SRPMS/sailfish-pass-otp-{otp_identity}.src.rpm'
 otp_files = payload(otp_rpm)
@@ -186,15 +190,19 @@ for name, original in [
     (otp_archive.name, otp_archive),
     ('pass-otp-stdin.patch', root / 'patches/pass-otp-stdin.patch'),
     ('pass-otp-private-backend.patch', root / 'patches/pass-otp-private-backend.patch'),
+    ('pass-otp-final-line.patch', root / 'patches/pass-otp-final-line.patch'),
     ('sailfish-pass-otp.spec', root / 'rpm/sailfish-pass-otp.spec')]:
     assert otp_sources[name][1] == original.read_bytes(), name
 with tarfile.open(otp_archive) as archive:
     original_script = archive.extractfile(f'pass-otp-{otp_version}/otp.bash').read()
     original_license = archive.extractfile(f'pass-otp-{otp_version}/LICENSE').read()
+    original_append_test = archive.extractfile(f'pass-otp-{otp_version}/test/append.t').read()
 with tempfile.TemporaryDirectory(prefix='synthetic-otp-inspect-') as temporary:
     prepared = Path(temporary) / 'otp.bash'
     prepared.write_bytes(original_script)
-    for patch in ('pass-otp-stdin.patch', 'pass-otp-private-backend.patch'):
+    (prepared.parent / 'test').mkdir()
+    (prepared.parent / 'test/append.t').write_bytes(original_append_test)
+    for patch in ('pass-otp-stdin.patch', 'pass-otp-private-backend.patch', 'pass-otp-final-line.patch'):
         subprocess.run(['patch', '--batch', '--forward', '-p1', '-i', str(root / 'patches' / patch)],
                        cwd=temporary, check=True, capture_output=True)
     assert otp_files['usr/libexec/sailfish-pass/password-store/extensions/otp.bash'][1] == prepared.read_bytes()
@@ -212,7 +220,7 @@ record['otp'] = {
     'binary_sha256': hashlib.sha256(otp_rpm.read_bytes()).hexdigest(),
     'source_sha256': hashlib.sha256(otp_srpm.read_bytes()).hexdigest(),
     'source_inputs': sorted(otp_sources), 'requires': otp_requires,
-    'checks': ['matching SRPM inputs', 'exact upstream-plus-two-patches payload',
+    'checks': ['matching SRPM inputs', 'exact upstream-plus-three-patches payload',
                'private backend dependency', 'exact upstream license', 'no scriptlets']}
 output.parent.mkdir(parents=True, exist_ok=True)
 output.write_text(json.dumps(record, indent=2) + '\n')

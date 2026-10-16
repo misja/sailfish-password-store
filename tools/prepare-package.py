@@ -47,9 +47,11 @@ require(path("sources/pass-release-key.asc").is_file(), "Missing public pass rel
 copies = [
     ("LICENSE", "LICENSE"), ("LICENSING.md", "LICENSING.md"),
     ("rpm/private-gpg.patch", "private-gpg.patch"),
+    ("rpm/pass-tree-fd3.patch", "pass-tree-fd3.patch"),
     ("runtime/sailfish-pass", "sailfish-pass"), ("sources.lock.json", "sources.lock.json"),
     ("patches/pass-otp-stdin.patch", "pass-otp-stdin.patch"),
     ("patches/pass-otp-private-backend.patch", "pass-otp-private-backend.patch"),
+    ("patches/pass-otp-final-line.patch", "pass-otp-final-line.patch"),
 ]
 for name in ("pass-tag-verification.json", "tree-source.json", "oath-source.json"):
     copies.append(("evidence/" + name, name))

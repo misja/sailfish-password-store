@@ -1,0 +1,53 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Vincent Bernat <vincent@bernat.ch>
+Date: Fri, 8 Feb 2019 11:26:32 +0100
+Subject: [PATCH] Do not remove password when new line is missing
+
+If the password file doesn't end with a new line, the last line is
+ignored because `read -r` will return a non-zero status, while still
+setting the `$line` variable. Some implementations of pass, like
+`gopass` do not create a password file ending with a new line.
+Therefore, using `pass otp append` on these files will result in the
+password being remove from the file.
+
+To fix that, we ensure we insert the new line if it is missing.
+
+I have added a test, but this is not enough to catch the problem
+because `pass` will add the new line even when it is missing (for
+example, using `echo -n | pass insert -e passfile` won't help to
+trigger the bug).
+
+(cherry picked from commit 42307e4ec3f226547e4742f25cd92aa39db53627)
+
+diff --git a/otp.bash b/otp.bash
+index 684a8e0..479e2ba 100755
+--- a/otp.bash
++++ b/otp.bash
+@@ -264,7 +264,7 @@ cmd_otp_append() {
+   [[ -f $passfile ]] || die "Passfile not found"
+ 
+   local existing contents=""
+-  while IFS= read -r line; do
++  while IFS= read -r line || [ -n "$line" ]; do
+     [[ -z "$existing" && "$line" == otpauth://* ]] && existing="$line"
+     [[ -n "$contents" ]] && contents+=$'\n'
+     contents+="$line"
+diff --git a/test/append.t b/test/append.t
+index 7f6d0af..a773e62 100755
+--- a/test/append.t
++++ b/test/append.t
+@@ -133,4 +133,14 @@ EOF
+   [[ $("$PASS" show passfile) == "$expected" ]]
+ '
+ 
++test_expect_success 'Keep original password' '
++  existing="foo bar baz"
++  uri="otpauth://totp/Example:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=Foo"
++
++  test_pass_init &&
++  "$PASS" insert -e passfile <<< "$existing" &&
++  "$PASS" otp append -e passfile <<< "$uri" &&
++  [[ $("$PASS" show passfile | head -1) == "$existing" ]]
++'
++
+ test_done

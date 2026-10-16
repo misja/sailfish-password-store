@@ -1,6 +1,6 @@
 Name: sailfish-pass-otp
 Version: 1.2.0
-Release: 0.4
+Release: 0.5
 Summary: pass extension for managing one-time-password tokens
 License: GPL-3.0-or-later
 URL: https://github.com/pass-extension/pass-otp
@@ -8,9 +8,10 @@ BuildArch: noarch
 Source0: pass-otp-1.2.0.tar.gz
 Source1: pass-otp-stdin.patch
 Source2: pass-otp-private-backend.patch
+Source3: pass-otp-final-line.patch
 BuildRequires: gnu-bash
 BuildRequires: patch
-Requires: sailfish-pass = 1.7.4-0.4
+Requires: sailfish-pass = 1.7.4-0.5
 Requires: sailfish-oathtool = 2.6.14-0.3
 Requires: /usr/libexec/sailfish-oath/bin/oathtool
 
@@ -22,6 +23,7 @@ user-provided extensions remain disabled. No GUI or real-data migration included
 %setup -q -n pass-otp-1.2.0
 patch -p1 < %{SOURCE1}
 patch -p1 < %{SOURCE2}
+patch -p1 < %{SOURCE3}
 
 %build
 /usr/bin/bash -n otp.bash
