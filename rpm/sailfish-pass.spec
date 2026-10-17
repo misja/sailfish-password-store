@@ -1,6 +1,6 @@
 Name: sailfish-pass
 Version: 1.7.4
-Release: 0.5
+Release: 0.6
 Summary: Private pass CLI feasibility package
 License: GPL-2.0-or-later AND GPL-3.0-or-later
 URL: https://www.passwordstore.org/
@@ -20,7 +20,7 @@ BuildRequires: gnu-bash
 BuildRequires: patch
 Requires: /usr/bin/busybox
 Requires: /usr/bin/env
-Requires: sailfish-gnupg-private = 2.5.24-0.6
+Requires: sailfish-gnupg-runtime = 2.5.24-0.7
 Requires: gnu-bash >= 5.0.18
 Requires: /usr/bin/bash
 Requires: /usr/bin/getopt
