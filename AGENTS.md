@@ -1,6 +1,6 @@
 # Agent instructions — Sailfish workspace
 
-Baseline version: 1.2.0 (2026-10-15).
+Baseline version: 1.3.0 (2026-10-17).
 
 These are operational instructions for coding assistants. Contributors should
 start with CONTRIBUTING.md. Misja Hoebe (@misja) is the human maintainer and
@@ -35,3 +35,22 @@ process artifacts. Separate assistant review is not a human security audit or
 release approval. Shared role details: sailfish-workspace/docs/development/agent-governance.md
 (resolve from the workspace parent); child repositories retain this gate even
 when cloned alone.
+
+## Research upstream and platform practice before design
+
+Firm maintainer instruction, 2026-10-17; applies to the primary assistant and
+all delegated agents. Prefer the least intrusive solution built on maintained
+upstream behavior and actual Sailfish/RPM facilities. Before introducing a new
+requirement, restriction, dependency or custom mechanism, inspect relevant
+upstream documentation/source and existing platform packaging. Verify behavior
+in the actual version in use; macro names and familiar patterns are not evidence.
+Report what already solves the problem and what concrete gap remains. Reviewers
+must challenge invented requirements as well as proposed implementations.
+
+Do not create a project-specific service framework, process coordinator or
+replacement for existing facilities merely to preserve an unexamined earlier
+choice. Departures need a concrete necessity/maintenance justification and
+maintainer agreement before implementation. Normal users must not inspect or
+kill processes for routine package operations. Record findings in the existing
+issue/handoff; do not create a parallel research backlog. Carry this requirement
+into every delegated task and retain it across sessions.

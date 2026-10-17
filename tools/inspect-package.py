@@ -19,7 +19,7 @@ spec = (root / 'rpm/sailfish-pass.spec').read_text()
 version = re.search(r'^Version:\s+(\S+)$', spec, re.M)[1]
 release = re.search(r'^Release:\s+(\S+)$', spec, re.M)[1]
 identity = f'{version}-{release}'
-runtime_requirement = re.search(r'^Requires:\s+(sailfish-gnupg-private = \S+)$', spec, re.M)[1]
+runtime_requirement = re.search(r'^Requires:\s+(sailfish-gnupg-runtime = \S+)$', spec, re.M)[1]
 binary = root / f'build/rpmbuild/RPMS/noarch/sailfish-pass-{identity}.noarch.rpm'
 source = root / f'build/rpmbuild/SRPMS/sailfish-pass-{identity}.src.rpm'
 output = args.output or root / f'evidence/rpm-inspection-{identity}.json'
