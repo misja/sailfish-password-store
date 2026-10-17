@@ -22,12 +22,14 @@ directly on Linux. The maintainer's outer LXC container is optional. Historical
 test harnesses can still have fixed paths; the clean SDK build and main source/binary RPM inspections are recorded in
 [the build report](https://github.com/misja/sailfish-workspace/blob/main/docs/development/clean-sdk-build-20261015.md).
 The tested bootstrap fixes were approved and merged; workspace issue #5 is closed. Auxiliary debug-package
-delivery and release acceptance remain separate. Native vendor-source and relink inputs
-are separate gates.
+delivery and release acceptance remain separate.
 
-Production agent lifecycle, provider/upgrade behavior and exact Sailfish 5.2
-vendor provenance remain open. Historical 5.2.0.18 results do not establish
-acceptance on 5.2.0.20. Follow repository issues for the remaining work.
+The packages use the separately named GnuPG runtime but install the public
+`/usr/bin/pass` command and require GNU Bash. See the [overview](../README.md)
+for directory selection and package/provider considerations. Earlier Xperia
+checks remain evidence within their recorded scope; current package changes
+have SDK build/regression checks. Runtime maintenance is described in the
+[GnuPG package notes](https://github.com/misja/sailfish-gnupg-runtime/blob/main/docs/lifecycle-contract.md).
 
 Original work is GPL-3.0-or-later, copyright (c) 2026 Misja Hoebe. See
 [LICENSING](../LICENSING.md) and [upstream exceptions](../THIRD_PARTY.md).
