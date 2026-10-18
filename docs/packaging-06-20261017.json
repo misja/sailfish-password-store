@@ -1,0 +1,116 @@
+{
+  "date": "2026-10-17",
+  "source_base": "573060d; reviewed metadata-only Summary/Description update in specs, exact source inputs verified against resulting SRPMs",
+  "sdk": "3.13.5 / SailfishOS-5.1.0.11-aarch64",
+  "versions": {
+    "pass": "1.7.4-0.6",
+    "otp": "1.2.0-0.6",
+    "runtime": "sailfish-gnupg-runtime = 2.5.24-0.7"
+  },
+  "artifacts": [
+    {
+      "component": "password-store",
+      "filename": "oath-toolkit-2.6.14-0.3.src.rpm",
+      "unsigned_sha256": "b045a50ff766c897b0d89162747bb1fc918742169b5f2f7d486022f78c1d983c",
+      "signed_sha256": "82f78f15a16a74542758bbac3fbce303d9336a6db5377cb689fb66c66eb88a27",
+      "main_header_payload_unchanged_by_signing": true
+    },
+    {
+      "component": "password-store",
+      "filename": "sailfish-liboath-2.6.14-0.3.aarch64.rpm",
+      "unsigned_sha256": "c0a3f951ae22e23e343579f8a91e187160accf1c9df75222d4ca0b8034cbb1e5",
+      "signed_sha256": "cdec9a174b1d7ba5cb392b16115eb9ba124b73969017c61f76ea6fc936ac4e86",
+      "main_header_payload_unchanged_by_signing": true
+    },
+    {
+      "component": "password-store",
+      "filename": "sailfish-oathtool-2.6.14-0.3.aarch64.rpm",
+      "unsigned_sha256": "cf70fe585b6feb35329bb8434b0c7e20999a467a10e5c6175e16240d42dedfbe",
+      "signed_sha256": "2a4a1a7a23898dc0c965fb3220ca59a52f1ed2ca108c501ebc0700a832051e7f",
+      "main_header_payload_unchanged_by_signing": true
+    },
+    {
+      "component": "password-store",
+      "filename": "sailfish-pass-1.7.4-0.6.noarch.rpm",
+      "unsigned_sha256": "531ce3d7565546f83b8a34f70e1f15696d12b519aae14717dce0f31f3ae9bd76",
+      "signed_sha256": "e0fa856bf2142618175f26b8c21cc150d3e738185bf36780ca8b8dd1ef3b542f",
+      "main_header_payload_unchanged_by_signing": true
+    },
+    {
+      "component": "password-store",
+      "filename": "sailfish-pass-1.7.4-0.6.src.rpm",
+      "unsigned_sha256": "fb2f8d7d1091a95b7e9c9b88e93d6a4f6049c197e8a488988cf9fbeb6e223439",
+      "signed_sha256": "1f52946f99ec1c8274605eb5eb3d03c2dfbdab1f7e0fe8bc071fc78fe860df9e",
+      "main_header_payload_unchanged_by_signing": true
+    },
+    {
+      "component": "password-store",
+      "filename": "sailfish-pass-otp-1.2.0-0.6.noarch.rpm",
+      "unsigned_sha256": "09cc9fcceca71bdb91295619e5cb157c2d12e1f0633f3e7ec5a0979d3aa32c4d",
+      "signed_sha256": "08c340e1090d1af06786464995e8e7ca858d4c223b6801f3b77ceca1436b9196",
+      "main_header_payload_unchanged_by_signing": true
+    },
+    {
+      "component": "password-store",
+      "filename": "sailfish-pass-otp-1.2.0-0.6.src.rpm",
+      "unsigned_sha256": "1e4df9148544635ce547f3d0de02725559fe876969ed999c8b4544905e90dfd1",
+      "signed_sha256": "ba53863f6d9c0d08179ffe7183aac5d50bdfb52fcba8ec0664fad6493576049e",
+      "main_header_payload_unchanged_by_signing": true
+    },
+    {
+      "component": "password-store",
+      "filename": "sailfish-pass-tree-2.3.2-0.1.aarch64.rpm",
+      "unsigned_sha256": "4d83ceffd0326545e5e7c30d988ebed39ea5fd084138f037b50931dd16a88a12",
+      "signed_sha256": "e5f8e5a8aae815e81a776b249db1b5590c08cd4abb9042aeed9785f86d9935db",
+      "main_header_payload_unchanged_by_signing": true
+    },
+    {
+      "component": "password-store",
+      "filename": "sailfish-pass-tree-2.3.2-0.1.src.rpm",
+      "unsigned_sha256": "0b4ac811ed36dd08567f48f7b79ea595d20466f50ee93a1d34897586abb8074e",
+      "signed_sha256": "e5b1fd429518991ae7393e5dc76ff6e1e3dc2436f64665ff950b3dde2486dbea",
+      "main_header_payload_unchanged_by_signing": true
+    }
+  ],
+  "pass_requires": [
+    "(/bin/stat or /usr/bin/stat)",
+    "/bin/sed",
+    "/usr/bin/base64",
+    "/usr/bin/bash",
+    "/usr/bin/busybox",
+    "/usr/bin/busybox",
+    "/usr/bin/env",
+    "/usr/bin/env",
+    "/usr/bin/find",
+    "/usr/bin/getopt",
+    "/usr/bin/grep",
+    "/usr/bin/id",
+    "/usr/bin/tr",
+    "/usr/libexec/sailfish-pass-tools/bin/tree",
+    "gnu-bash >= 5.0.18",
+    "rpmlib(CompressedFileNames) <= 3.0.4-1",
+    "rpmlib(FileDigests) <= 4.6.0-1",
+    "rpmlib(PayloadFilesHavePrefix) <= 4.0-1",
+    "rpmlib(PayloadIsZstd) <= 5.4.18-1",
+    "rpmlib(RichDependencies) <= 4.12.0-1",
+    "sailfish-gnupg-runtime = 2.5.24-0.7",
+    "sailfish-pass-tree = 2.3.2"
+  ],
+  "otp_requires": [
+    "/usr/bin/env",
+    "/usr/libexec/sailfish-oath/bin/oathtool",
+    "rpmlib(CompressedFileNames) <= 3.0.4-1",
+    "rpmlib(FileDigests) <= 4.6.0-1",
+    "rpmlib(PayloadFilesHavePrefix) <= 4.0-1",
+    "rpmlib(PayloadIsZstd) <= 5.4.18-1",
+    "sailfish-oathtool = 2.6.14-0.3",
+    "sailfish-pass = 1.7.4-0.6"
+  ],
+  "checks": [
+    "All new SRPM inputs match current source/spec bytes",
+    "No unexpected scriptlets",
+    "Coordinated RPM database metadata upgrade passes; runtime alone correctly rejected",
+    "Unchanged tree/OATH artifacts reused"
+  ],
+  "limits": "SDK build and isolated metadata check, not a new full device trial or real RPM installation."
+}

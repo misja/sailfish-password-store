@@ -16,8 +16,8 @@ Requires: sailfish-oathtool = 2.6.14-0.3
 Requires: /usr/libexec/sailfish-oath/bin/oathtool
 
 %description
-Trusted system extension for the private pass CLI. Backend seeds use stdin;
-user-provided extensions remain disabled. No GUI or real-data migration included.
+OTP support for pass, using the packaged OATH tools. OTP entries are encrypted
+in the password store. User-provided extensions remain disabled.
 
 %prep
 %setup -q -n pass-otp-1.2.0
