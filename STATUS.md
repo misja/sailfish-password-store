@@ -1,6 +1,6 @@
 # Current source and delivery
 
-Updated: 2026-10-17. Live release work: [package #1](https://github.com/misja/sailfish-password-store/issues/1)
+Updated: 2026-10-18. Live release work: [package #1](https://github.com/misja/sailfish-password-store/issues/1)
 and [workspace delivery #2](https://github.com/misja/sailfish-workspace/issues/2).
 Misja decides merge/publication. A separate Release Manager owns presentation;
 independent review checks package/source/signature evidence.
@@ -21,5 +21,16 @@ confirmation. This is not a new full pass/OTP device trial or general migration,
 synchronization or production acceptance. Public /usr/bin/pass ownership and
 compatible GNU Bash remain installation considerations described in the README.
 
-Draft refresh is in progress with signed RPMs and matching source RPMs. Existing
-public source pins remain unchanged; no upstream submission or publication.
+The existing unpublished draft now contains signed binary/source RPMs and the
+public certificate (ten assets). Runtime 0.7 was refreshed with it. SDK signature
+verification and separate cryptographic assistant review passed; separate final
+draft/download review found no blocker, with all thirteen downloads matching
+local delivery hashes. Existing public source pins remain unchanged.
+
+[Packaging PR #12](https://github.com/misja/sailfish-password-store/pull/12) awaits
+maintainer review. The [password-store draft](https://github.com/misja/sailfish-password-store/releases/tag/untagged-a89114055f9e9007f236)
+retains reviewed source `a3b6b03d0340f12c4c7d5062c118357cc2bdcfb9`, containing the
+exact built spec metadata. Delivery evidence and cleanup confirmation remain in
+the parent workspace's `.local-artifacts/release-20261017-cli/`. Next: Misja's
+review and later explicit publication decision. Assistant review is not a human
+audit or release approval. No merge, publication or new installation/device change.
