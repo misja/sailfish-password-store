@@ -2,10 +2,12 @@
 
 The downstream source changes are maintained in:
 
-- [misja/sailfish-pass](https://github.com/misja/sailfish-pass), from zx2c4/password-store
-- [misja/pass-otp](https://github.com/misja/pass-otp), from pass-extension/pass-otp
+- [misja/sailfish-pass](https://github.com/misja/sailfish-pass/tree/sailfish/private-gpg), from zx2c4/password-store
+- [misja/pass-otp](https://github.com/misja/pass-otp/tree/sailfish/stdin-private-backend), from pass-extension/pass-otp
 
-sources.lock.json records exact upstream bases and downstream commits. Fork
+`sources.lock.json` records exact upstream bases and downstream commits. The
+links above open the maintained adaptation branches; the lock identifies the
+source revisions used for packaging. Fork
 history preserves the upstream ancestry; review our changes against those bases.
 The existing pass and pass-otp patches have the same code deltas as the fork
 commits. Initial source files were compared with the authenticated cached

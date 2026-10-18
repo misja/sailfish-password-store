@@ -1,7 +1,7 @@
 Name: sailfish-pass
 Version: 1.7.4
 Release: 0.6
-Summary: Private pass CLI feasibility package
+Summary: Command-line password storage with a separate GnuPG runtime
 License: GPL-2.0-or-later AND GPL-3.0-or-later
 URL: https://www.passwordstore.org/
 BuildArch: noarch
@@ -35,9 +35,9 @@ Requires: /usr/bin/id
 Requires: (/bin/stat or /usr/bin/stat)
 
 %description
-Offline pass CLI bound explicitly to the private GnuPG runtime. Requires
-full Bash and compatible utilities; does not replace Jolla software. This
-prototype has not completed representative device end-to-end acceptance.
+Password storage using pass and the separately packaged Sailfish GnuPG runtime.
+Installs the pass command and requires GNU Bash plus explicitly selected key
+and password-store directories. OTP support is supplied by sailfish-pass-otp.
 
 %prep
 %setup -q -n password-store-1.7.4

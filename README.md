@@ -1,7 +1,8 @@
 # pass and OTP for Sailfish OS
 
 Command-line password and OTP storage for Sailfish OS, using
-[pass](https://www.passwordstore.org/) and pass-otp. Packages include pass 1.7.4,
+[pass](https://github.com/misja/sailfish-pass/tree/sailfish/private-gpg) and
+[pass-otp](https://github.com/misja/pass-otp/tree/sailfish/stdin-private-backend). Packages include pass 1.7.4,
 pass-otp 1.2.0 and the tree/OATH tools they need.
 
 ## How the packages fit together
@@ -18,7 +19,9 @@ not automatically select or migrate your existing store or keys.
 
 The pass package installs `/usr/bin/pass` and requires GNU Bash. Check for an
 existing pass package and a compatible Bash provider before installation.
-GnuPG’s separate namespace does not resolve those package conflicts.
+GnuPG’s separate namespace does not resolve those package conflicts. When
+upgrading an existing installation, update the runtime, pass and pass-otp in
+the same package transaction.
 
 ## Status and development
 
