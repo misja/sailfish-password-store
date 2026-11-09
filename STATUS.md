@@ -2,7 +2,7 @@
 
 Updated: 2026-10-18. Live release work: [package #1](https://github.com/misja/sailfish-password-store/issues/1)
 and [workspace delivery #2](https://github.com/misja/sailfish-workspace/issues/2).
-Misja decides merge/publication. A separate Release Manager owns presentation;
+The maintainer decides merge/publication. A separate Release Manager owns presentation;
 independent review checks package/source/signature evidence.
 
 Pass 1.7.4-0.6 and OTP 1.2.0-0.6 now use the renamed GnuPG runtime 2.5.24-0.7.
@@ -31,6 +31,6 @@ local delivery hashes. Existing public source pins remain unchanged.
 maintainer review. The [password-store draft](https://github.com/misja/sailfish-password-store/releases/tag/untagged-a89114055f9e9007f236)
 retains reviewed source `a3b6b03d0340f12c4c7d5062c118357cc2bdcfb9`, containing the
 exact built spec metadata. Delivery evidence and cleanup confirmation remain in
-the parent workspace's `.local-artifacts/release-20261017-cli/`. Next: Misja's
+the parent workspace's `.local-artifacts/release-20261017-cli/`. Next: the maintainer's
 review and later explicit publication decision. Assistant review is not a human
 audit or release approval. No merge, publication or new installation/device change.
