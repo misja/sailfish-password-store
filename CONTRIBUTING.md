@@ -6,7 +6,7 @@ For a change, open a pull request explaining the problem, the resulting behavior
 
 ## AI assistance and responsibility
 
-This project uses AI-assisted development tools. Misja Hoebe (@misja) is the maintainer and is responsible for deciding what is merged and released.
+This project uses AI-assisted development tools. The maintainer is responsible for deciding what is merged and released.
 
 Contributors must understand and review the changes they submit, whether written manually or with assistance. If AI materially contributed to a change, briefly state what it helped with and how the result was checked. Tool output and generated text are not evidence that a change is correct.
 

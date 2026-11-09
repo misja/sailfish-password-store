@@ -1,14 +1,16 @@
 # Agent instructions — Sailfish workspace
 
-Baseline version: 1.3.0 (2026-10-17).
+Baseline version: 1.5.0 (2026-11-09).
 
 These are operational instructions for coding assistants. Contributors should
-start with CONTRIBUTING.md. Misja Hoebe (@misja) is the human maintainer and
-retains responsibility for merge and release decisions.
+start with CONTRIBUTING.md. The human maintainer retains responsibility for
+merge and release decisions.
 
 - Read STATUS.md and the relevant accepted ADR before project work. Project artifacts are English; use the maintainer’s language for discussion.
 - AI tools may propose changes and run authorized checks. The maintainer reviews changes before merge. Identify automated checks, assistant review and human review accurately; assistant agreement is not a human audit. AI tools cannot approve their own work, waive acceptance criteria or authorize deployment/publication.
 - Work autonomously on routine reversible local work within approved scope. Software installation, remote repository creation/push, OBS writes/publication, device/system/destructive changes and security exceptions require explicit scoped human approval. Architecture approval does not grant these permissions.
+- Repositories and everything published from them are public; local facts stay local. Name roles ("the maintainer"), never other people from our own process; names appear only in outside information reproduced as is (licences, cited sources). No real IP/MAC addresses, host, device, room or share names: use placeholders. Required identity stays only in copyright/licence notices, packaging metadata, git authorship and account-based URLs/IDs. Check before every push, PR, issue or release (principles 1.5.0, "Personal information").
+- Write for the reader: say what is, briefly. Leave out what the reader already knows, intentions, praise and hand-maintained detail; keep our process out of user-facing text; no chat residue in commits, PRs or handoffs (principles 1.6.0, "Writing").
 - Never inspect, import, export or log real private keys, password stores, OTP seeds/URIs, passwords or recovery codes. Use synthetic fixtures and published test vectors only.
 - Preserve Jolla packages, binaries and libraries. Private runtime isolation must include ELF loading, helper paths, RPM resolution, configuration, agent sockets and upgrade/removal.
 - Keep one accountable owner per task. Role consultation does not transfer ownership. Investigate blockers and propose options; allow one clarification round-trip for the same blocker, then escalate to its decision owner.
