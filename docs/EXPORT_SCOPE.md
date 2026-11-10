@@ -31,7 +31,7 @@ checks remain evidence within their recorded scope; current package changes
 have SDK build/regression checks. Runtime maintenance is described in the
 [GnuPG package notes](https://github.com/misja/sailfish-gnupg-runtime/blob/main/docs/lifecycle-contract.md).
 
-Original work is GPL-3.0-or-later, copyright (c) 2026 Misja Hoebe. See
+Original work is GPL-3.0-or-later. See
 [LICENSING](../LICENSING.md) and [upstream exceptions](../THIRD_PARTY.md).
 Source publication is separate from package releases, device changes and
 upstream submissions.

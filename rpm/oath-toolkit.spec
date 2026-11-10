@@ -13,8 +13,8 @@ Source2: oath-COPYING.LESSER
 BuildRequires: chrpath
 
 %description
-OATH Toolkit packaging follows separate library and CLI binary packages.
-PAM and PSKC are excluded from this private Sailfish prototype.
+OATH Toolkit library and command-line tool for HOTP and TOTP one-time
+passwords, built without PAM and PSKC support.
 
 %package -n sailfish-liboath
 Summary: Library for OATH handling

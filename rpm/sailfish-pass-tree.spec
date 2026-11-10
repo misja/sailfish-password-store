@@ -1,7 +1,7 @@
 Name: sailfish-pass-tree
 Version: 2.3.2
 Release: 0.1
-Summary: Private tree utility for the pass CLI prototype
+Summary: tree, for pass only
 License: GPL-2.0-or-later
 URL: https://gitlab.com/OldManProgrammer/unix-tree
 Source0: tree-2.3.2.tar.gz

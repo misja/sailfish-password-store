@@ -2,14 +2,14 @@
 
 Command-line password and OTP storage for Sailfish OS, using
 [pass](https://github.com/misja/sailfish-pass/tree/sailfish/private-gpg) and
-[pass-otp](https://github.com/misja/pass-otp/tree/sailfish/stdin-private-backend). Packages include pass 1.7.4,
-pass-otp 1.2.0 and the tree/OATH tools they need.
+[pass-otp](https://github.com/misja/pass-otp/tree/sailfish/stdin-private-backend). Packages include pass,
+pass-otp and the tree and OATH tools they need.
 
 ## How the packages fit together
 
-The `pass` command uses [our separately packaged GnuPG runtime](https://github.com/misja/sailfish-gnupg-runtime)
+The `pass` command uses the [Sailfish GnuPG runtime](https://github.com/misja/sailfish-gnupg-runtime)
 through `sailfish-gpg`. That runtime has its own commands, libraries, key directory
-and agent, alongside Jolla’s GnuPG.
+and agent, alongside Jolla's GnuPG.
 
 Before running `pass` or `pass otp`, select a key directory with
 `SAILFISH_GNUPGHOME` and a separate password-store directory with
@@ -17,24 +17,20 @@ Before running `pass` or `pass otp`, select a key directory with
 `0700`, using absolute physical paths; they must not overlap. The launcher does
 not automatically select or migrate your existing store or keys.
 
-The pass package installs `/usr/bin/pass` and requires GNU Bash. Check for an
-existing pass package and a compatible Bash provider before installation.
-GnuPG’s separate namespace does not resolve those package conflicts. When
-upgrading an existing installation, update the runtime, pass and pass-otp in
+The pass package installs `/usr/bin/pass`, so it cannot be installed next to
+another pass package; remove that first. It needs GNU Bash. When upgrading an existing installation, update the runtime, pass and pass-otp in
 the same package transaction.
 
-## Status and development
+Moving an existing password store or keys into these packages, and
+synchronising a store, are not supported.
 
-Earlier builds were exercised on a development Xperia running Sailfish OS
-5.2.0.18; package preservation was checked after its update to 5.2.0.20. Current
-revisions have SDK build/regression checks. General migration, synchronization
-and production support remain outside the accepted scope.
+## Development
 
 This repository contains RPM recipes, launchers, patches and integration tests.
 Adapted pass and pass-otp sources live in [upstream forks](docs/UPSTREAM_FORKS.md),
 with exact revisions recorded here. See the [documentation index](docs/index.md)
 for source/build instructions and fork maintenance.
 
-Development uses AI-assisted tools under maintainer review. See [CONTRIBUTING](CONTRIBUTING.md) for review and testing requirements. Shared working agreements live in [sailfish-workspace](https://github.com/misja/sailfish-workspace).
+Development uses AI-assisted tools under maintainer review; see [CONTRIBUTING](CONTRIBUTING.md).
 
 Original work is [GPL-3.0-or-later](LICENSING.md). The pass, pass-otp and other [upstream licenses](THIRD_PARTY.md) remain in force.
