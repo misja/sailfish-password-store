@@ -1,24 +1,25 @@
 ---
 name: Maintainer decision
-about: Record a decision on a concrete proposal
+about: For the maintainer: record a decision on a proposal
 ---
 
-<!-- Contribution template 1.1.0, 2026-10-14. -->
+<!-- Contribution template 1.2.0, 2026-11-10. -->
 
 ## Decision
 
-What needs to be decided, and by whom?
+What needs to be decided?
 
 ## Proposal
 
-Link the change/revision and relevant checks. Give options and a recommendation.
+Link the change and the checks that ran. Give the options and a
+recommendation.
 
 ## Scope
 
-State which action is requested: merge, installation, device change, upstream
-submission or publication. Approval of one does not authorize the others.
+Which action is requested: merge, installation, device change, upstream
+submission or publication? Approval of one does not authorize the others.
 
 ## Outcome
 
 The maintainer records the decision against the reviewed revision and scope,
-including any conditions or unresolved findings.
+with any conditions or unresolved findings.
