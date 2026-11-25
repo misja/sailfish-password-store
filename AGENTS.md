@@ -1,6 +1,6 @@
 # Agent instructions — Sailfish workspace
 
-Baseline version: 1.6.0 (2026-11-12).
+Baseline version: 1.7.0 (2026-11-25).
 
 These are operational instructions for coding assistants. Contributors should
 start with CONTRIBUTING.md. The human maintainer retains responsibility for
@@ -18,6 +18,7 @@ merge and release decisions.
 - Pin source/tool/template versions and cite dated evidence. Separate facts, supplied observations, assumptions and unresolved questions. No silent upstream updates or automatic Chum webhooks.
 - Use one spec/plan/task set per feature. Keep the session handoff in a local file outside the repositories (agent-governance.md). Do not create speculative app/common-library repositories.
 - Run checks appropriate to the change; record failures and limitations. Never label unexecuted tests as passed.
+- Test doubles, demos and fixtures of a device or service behave as measured on it (dated, cited); unmeasured behaviour is marked invented and is an open risk. Specs list every end state of a stateful feature; results say what ran on the real device and what on a double (principles 1.8.0, "Measured behaviour").
 - Child repositories must contain this essential baseline themselves: a parent file outside their Git root is not assumed loaded. Copy changes with baseline version and reviewed diff.
 
 ## Mandatory review gate (maintainer instruction, 2026-10-15)
