@@ -1,4 +1,4 @@
-<!-- Contribution template 1.2.0, 2026-11-10. -->
+<!-- Contribution template 1.3.0, 2026-11-25. -->
 
 ## Change
 
@@ -8,6 +8,8 @@ issue and the design where there is one.
 ## Validation
 
 Which checks ran, on which version and target? Include failures and gaps.
+What ran against the real device or service, and what only against a test
+double? Name behaviour a double invents ([measured behaviour](https://github.com/misja/sailfish-workspace/blob/main/docs/development/principles.md#measured-behaviour)).
 Say which checks were automated, an assistant review or a human review. For crypto, isolation or release-critical changes, link the separate
 verification.
 
